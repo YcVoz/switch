@@ -26,7 +26,7 @@ these buttons for our use.
 
 #include "Joystick.h"
 
-bool ifmonthchangee(int y,int m,int d){
+bool ifmonthchangee(int y, int m, int d) {
 	if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12)
 	{
 		if (d == 31)
@@ -62,10 +62,10 @@ bool ifmonthchangee(int y,int m,int d){
 				return 0;
 			}
 		}
-		else 
+		else
 		{
 			if (d == 28
-)
+				)
 			{
 				return 1;
 			}
@@ -122,18 +122,19 @@ typedef struct {
 
 static const command step[] = {
 
-
-	{ A,          5 },
+	{ B,        5 },
+	{ NOTHING,  10 },
+	{ A,        5 },
 	{ NOTHING,  10 },
 	{ A,          5 },
 	{ NOTHING,  10 },
-    { A,          5 },
-	{ NOTHING,  30 },
+	{ A,          5 },
+	{ NOTHING,  100 },
 	 { A,          5 },
 	{ NOTHING,  100 },
 
 	 { Home,          5 },//HOME
-	{ NOTHING,  100 },
+	{ NOTHING,  50 },
 	{DOWN,5},
 	{ NOTHING,  10 },
 	{RIGHT,5},
@@ -146,36 +147,36 @@ static const command step[] = {
 	{ NOTHING,  10 },
 
 	{A,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  50 },
 
 	{DOWN,5}, ///setting
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING, 5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING, 5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5},
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING, 5 },
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5},
 	{DOWN,5},
-	{ NOTHING,  10 },
+	{ NOTHING,  5},
 
 	{A,5},  //system
 	{ NOTHING,  10 },
@@ -216,7 +217,7 @@ static const command step[] = {
 	{ifYear_jump2,1},
 	{LEFT,5}, //if year
 	{ NOTHING,  10 },
-	{LEFT,5}, 
+	{LEFT,5},
 	{ NOTHING,  10 },
 	{UP,5},
 	{ NOTHING,  10 },
@@ -236,7 +237,7 @@ static const command step[] = {
 	{ NOTHING,  10 },
 
 	 { Home,       5 },//HOME
-	{ NOTHING,  100 },
+	{ NOTHING,  50 },
 	{A,5},
 	{ NOTHING,  50 },
 	{B,5},
@@ -247,7 +248,7 @@ static const command step[] = {
 
 // Main entry point.
 int main(void) {
-	
+
 	// We'll start by performing hardware and peripheral setup.
 	SetupHardware();
 	// We'll then enable global interrupts for our use.
@@ -255,7 +256,7 @@ int main(void) {
 	DDRC = 0x00;
 	// Once that's done, we'll enter an infinite loop.
 	for (;;)
-	{		
+	{
 		// We need to run our task to process and deliver data for our IN and OUT endpoints.		
 		HID_Task();
 		// We also need to run the main USB management task.
@@ -273,17 +274,17 @@ void SetupHardware(void) {
 	clock_prescale_set(clock_div_1);
 	// We can then initialize our hardware and peripherals, including the USB stack.
 
-	#ifdef ALERT_WHEN_DONE
-	// Both PORTD and PORTB will be used for the optional LED flashing and buzzer.
-	#warning LED and Buzzer functionality enabled. All pins on both PORTB and \PORTD will toggle when printing is done.
-	DDRD  = 0xFF; //Teensy uses PORTD
-	PORTD =  0x0;
+#ifdef ALERT_WHEN_DONE
+// Both PORTD and PORTB will be used for the optional LED flashing and buzzer.
+	#warning LED and Buzzer functionality enabled.All pins on both PORTB and \PORTD will toggle when printing is done.
+		DDRD = 0xFF; //Teensy uses PORTD
+	PORTD = 0x0;
 
-                  //We'll just flash all pins on both ports since the UNO R3
-	DDRB  = 0xFF; //uses PORTB. Micro can use either or, but both give us 2 LEDs
-	PORTB =  0x0; //The ATmega328P on the UNO will be resetting, so unplug it?
-	#endif
-	// The USB stack should be initialized last.
+	//We'll just flash all pins on both ports since the UNO R3
+	DDRB = 0xFF; //uses PORTB. Micro can use either or, but both give us 2 LEDs
+	PORTB = 0x0; //The ATmega328P on the UNO will be resetting, so unplug it?
+#endif
+// The USB stack should be initialized last.
 	USB_Init();
 }
 
@@ -332,7 +333,7 @@ void HID_Task(void) {
 			// We'll create a place to store our data received from the host.
 			USB_JoystickReport_Output_t JoystickOutputData;
 			// We'll then take in that data, setting it up in our storage.
-			while(Endpoint_Read_Stream_LE(&JoystickOutputData, sizeof(JoystickOutputData), NULL) != ENDPOINT_RWSTREAM_NoError);
+			while (Endpoint_Read_Stream_LE(&JoystickOutputData, sizeof(JoystickOutputData), NULL) != ENDPOINT_RWSTREAM_NoError);
 			// At this point, we can react to this data.
 
 			// However, since we're not doing anything with this data, we abandon it.
@@ -357,13 +358,13 @@ void HID_Task(void) {
 		// We'll create an empty report.
 		USB_JoystickReport_Input_t JoystickInputData;
 		// We'll then populate this report with what we want to send to the host.
-		
-			GetNextReport(&JoystickInputData);
-			// Once populated, we can output this data to the host. We do this by first writing the data to the control stream.
-			while (Endpoint_Write_Stream_LE(&JoystickInputData, sizeof(JoystickInputData), NULL) != ENDPOINT_RWSTREAM_NoError);
-			// We then send an IN packet on this endpoint.
-			Endpoint_ClearIN();
-		
+
+		GetNextReport(&JoystickInputData);
+		// Once populated, we can output this data to the host. We do this by first writing the data to the control stream.
+		while (Endpoint_Write_Stream_LE(&JoystickInputData, sizeof(JoystickInputData), NULL) != ENDPOINT_RWSTREAM_NoError);
+		// We then send an IN packet on this endpoint.
+		Endpoint_ClearIN();
+
 	}
 }
 
@@ -470,7 +471,7 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 			ReportData->RY = STICK_MIN;
 			ReportData->RX = STICK_MAX;
 			//if (PINC == 0x01) { finn = 1; PORTD = 0xFF;}
-			
+
 			break;
 
 		case UP:
@@ -540,21 +541,21 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 
 		duration_count++;
 
-		 if (step[bufindex].button == ifMonth_jump2 && ifmonthchangee(year,month,day) == 0)
+		if (step[bufindex].button == ifMonth_jump2 && ifmonthchangee(year, month, day) == 0)
 		{
 			bufindex += 18;
 			duration_count = 0;
 			finn = 0;
 		}
-		else if (step[bufindex].button == ifYear_jump2 && ifyearchangee(month,day) == 0)
+		else if (step[bufindex].button == ifYear_jump2 && ifyearchangee(month, day) == 0)
 		{
 			bufindex += 11;
 			duration_count = 0;
 			finn = 0;
 		}
-		else 
+		else
 		{
-			if (duration_count > step[bufindex].duration || finn == 1) 
+			if (duration_count > step[bufindex].duration || finn == 1)
 			{
 				bufindex++;
 				duration_count = 0;
@@ -573,7 +574,7 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 			}
 			else if (ifmonthchangee(year, month, day) == 1)
 			{
-				month ++;
+				month++;
 				day = 1;
 			}
 			else
