@@ -121,129 +121,19 @@ typedef struct {
 } command;
 
 static const command step[] = {
-
-	{ B,        5 },
+	{ X,          10 },//from pc
+	{ NOTHING,  20 },
+	{ A,          5 },//fly to babyhouse
+	{ NOTHING,  100 },
+	{ UP,         5 },
 	{ NOTHING,  10 },
-	{ A,        5 },
+	{ RIGHT,      5 },
 	{ NOTHING,  10 },
 	{ A,          5 },
-	{ NOTHING,  10 },
+	{ NOTHING,  20 },
 	{ A,          5 },
 	{ NOTHING,  100 },
-	 { A,          5 },
-	{ NOTHING,  100 },
-
-	 { Home,          5 },//HOME
-	{ NOTHING,  50 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-
-	{A,5},
-	{ NOTHING,  50 },
-
-	{DOWN,5}, ///setting
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING, 5 },
-	{DOWN,5},
-	{ NOTHING, 5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING,  5},
-	{DOWN,5},
-	{ NOTHING,  5 },
-	{DOWN,5},
-	{ NOTHING, 5 },
-	{DOWN,5},
-	{ NOTHING,  5},
-	{DOWN,5},
-	{ NOTHING,  5},
-
-	{A,5},  //system
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-
-	{A,5},  //date
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-	{DOWN,5},
-	{ NOTHING,  10 },
-
-	{A,5},  //change date
-	{ NOTHING,  10 },
-
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{UP,5},
-	{ NOTHING,  10 },
-
-	{ifMonth_jump2,1},
-	{LEFT,5}, //if month
-	{ NOTHING,  10 },
-	{UP,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-
-	{ifYear_jump2,1},
-	{LEFT,5}, //if year
-	{ NOTHING,  10 },
-	{LEFT,5},
-	{ NOTHING,  10 },
-	{UP,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{ NOTHING,  10 },
-
-	{RIGHT,5}, //close
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{RIGHT,5},
-	{ NOTHING,  10 },
-	{A,5},
-	{ NOTHING,  10 },
-
-	 { Home,       5 },//HOME
-	{ NOTHING,  50 },
-	{A,5},
-	{ NOTHING,  50 },
-	{B,5},
-	{ NOTHING,  50 },
-	{ A,5 },
-	{ NOTHING,  250 },
+	{ viewL,    55 }
 };
 
 // Main entry point.

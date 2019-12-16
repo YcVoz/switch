@@ -61,7 +61,8 @@ typedef struct {
 } command;
 
 static const command step[] = {
-
+	{ B,        5 }, //wake ns
+	{ NOTHING,  10 },
 	{ viewL,    55 },//back to center and run
 	{ NOTHING,  10 },
 	{ UP,  100 },
@@ -122,7 +123,7 @@ static const command step[] = {
 	{ NOTHING,  10 },
 
 	{ A,          5 },//fly
-	{ NOTHING,  100 },
+	{ NOTHING,  120 },
 	{ A,          5 },
 	{ NOTHING,  20 },
 	{ A,          5 },
@@ -141,9 +142,7 @@ static const command step[] = {
 	{ B,          5 },
 	{ NOTHING,  100 },
 	{ B,          5 },
-	{ NOTHING,  20 },
-
-
+	{ NOTHING,  10 },
 
 };
 
